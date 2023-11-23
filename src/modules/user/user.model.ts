@@ -1,4 +1,6 @@
+import bcrypt from "bcrypt";
 import mongoose, { Schema } from "mongoose";
+import config from "../../app/config";
 import { IAddress, IFullName, IOrder, IUser } from "./user.interface";
 
 const AddressSchema = new Schema<IAddress>({
@@ -29,6 +31,23 @@ const UserSchema = new Schema<IUser>({
     hobbies: { type: [String], required: true },
     address: { type: AddressSchema, required: true },
     orders: { type: [OrderSchema], required: true },
-});
+    },
+    {
+        toJSON: {
+          virtuals: true,
+        },
+    }
+);
+
+
+  UserSchema.pre('save', async function (next) {
+    // eslint-disable-next-line @typescript-eslint/no-this-alias
+    const user = this;
+    user.password = await bcrypt.hash(
+      user.password,
+      Number(config.salt_rounds),
+    );
+    next();
+  });
 
 export const User = mongoose.model<IUser>("User", UserSchema);
