@@ -53,11 +53,12 @@ const UserSchema = new Schema({
 
   UserSchema.pre('find' , async function(next) {
     this.find({}).projection({ username: 1, fullName: 1, age: 1 , email:1 , address :1 , _id : 0})
+    next()
   })
 
 
   UserSchema.methods.toJSON = function () {
-    const { password, ...rest } = this.toObject();
+    const { password,_id,__v, ...rest } = this.toObject();
     return rest;
 };
 

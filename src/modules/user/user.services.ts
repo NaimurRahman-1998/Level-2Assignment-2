@@ -2,25 +2,14 @@ import { IUser } from './user.interface';
 import { User } from './user.model';
 
 const createuser = async (data: IUser) => {
-  try {
     const result = await User.create(data);
     return result;
-  } catch (error) {
-    // Handle the error
-    console.error('Error creating user:', error);
-    throw error;
-  }
 };
 
-const getAllUser = async () => {
-  try {
+const getAllUser = async () => { 
     const result = await User.find();
     return result;
-  } catch (error) {
-    // Handle the error
-    console.error('Error getting all users:', error);
-    throw error;
-  }
+
 };
 
 const getSingleUser = async (id: string) => {
@@ -34,7 +23,6 @@ const getSingleUser = async (id: string) => {
 
 
 const updateUser = async (id: string, data: IUser) => {
-  try {
     const existingUser = await User.isUserExists(id);
     if (!existingUser) {
         throw new Error('User not found');
@@ -44,26 +32,15 @@ const updateUser = async (id: string, data: IUser) => {
       runValidators: true,
     });
     return result;
-  } catch (error) {
-    // Handle the error
-    console.error('Error updating user:', error);
-    throw error;
-  }
 };
 
 const deleteUser = async (id: string) => {
-  try {
     const existingUser = await User.isUserExists(id);
     if (!existingUser) {
         throw new Error('User not found');
       }
     const result = await User.findOneAndDelete({ userId: id });
     return result;
-  } catch (error) {
-    // Handle the error
-    console.error('Error deleting user:', error);
-    throw error;
-  }
 };
 
 export const userService = {
