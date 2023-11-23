@@ -1,27 +1,64 @@
 import { IUser } from "./user.interface";
 import { User } from "./user.model";
 
-const createuser = (data : IUser) =>{
-    const result = User.create(data);
-    return result;
-}
-const getAllUser = () =>{
-    const result = User.find();
-    return result;
-}
-const getSingleUser = (id : string) =>{
-    const result = User.findOne( {userId : id} );
-    return result;
-}
-const updateUser = (id : string , data : IUser) =>{
-    const result = User.findOneAndUpdate( {userId : id} , data ,{ new: true ,runValidators: true})
-    return result;
-}
-const deleteUser = (id : string) =>{
-    const result = User.findOneAndDelete({userId : id});
-    return result;
-}
+const createuser = async (data: IUser) => {
+    try {
+        const result = await User.create(data);
+        return result;
+    } catch (error) {
+        // Handle the error
+        console.error("Error creating user:", error);
+        throw error;
+    }
+};
 
+const getAllUser = async () => {
+    try {
+        const result = await User.find();
+        return result;
+    } catch (error) {
+        // Handle the error
+        console.error("Error getting all users:", error);
+        throw error;
+    }
+};
+
+const getSingleUser = async (id: string) => {
+    try {
+        const result = await User.findOne({ userId: id });
+        return result;
+    } catch (error) {
+        // Handle the error
+        console.error("Error getting single user:", error);
+        throw error;
+    }
+};
+
+const updateUser = async (id: string, data: IUser) => {
+    try {
+        const result = await User.findOneAndUpdate(
+            { userId: id },
+            data,
+            { new: true, runValidators: true }
+        );
+        return result;
+    } catch (error) {
+        // Handle the error
+        console.error("Error updating user:", error);
+        throw error;
+    }
+};
+
+const deleteUser = async (id: string) => {
+    try {
+        const result = await User.findOneAndDelete({ userId: id });
+        return result;
+    } catch (error) {
+        // Handle the error
+        console.error("Error deleting user:", error);
+        throw error;
+    }
+};
 
 export const userService = {
     createuser,
@@ -29,4 +66,4 @@ export const userService = {
     getSingleUser,
     updateUser,
     deleteUser
-}
+};

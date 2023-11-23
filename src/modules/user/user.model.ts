@@ -1,3 +1,5 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
+/* eslint-disable no-unused-vars */
 import bcrypt from "bcrypt";
 import mongoose, { Schema } from "mongoose";
 import config from "../../app/config";
@@ -49,5 +51,16 @@ const UserSchema = new Schema<IUser>({
     );
     next();
   });
+
+  UserSchema.pre('find' , async function(next) {
+    this.find({}).projection({ username: 1, fullName: 1, age: 1 , email:1 , address :1 , _id : 0})
+  })
+
+
+  UserSchema.methods.toJSON = function () {
+    const { password, ...rest } = this.toObject();
+    return rest;
+};
+
 
 export const User = mongoose.model<IUser>("User", UserSchema);
