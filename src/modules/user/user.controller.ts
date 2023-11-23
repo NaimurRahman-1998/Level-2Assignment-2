@@ -17,7 +17,75 @@ const createuser = async (req: Request, res: Response) => {
     })
   }
 };
+const getAllUser = async (req: Request, res: Response) => {
+  try {
+    const result = await userService.getAllUser()
+    res.status(200).json({
+        success : true,
+        message : "Users fetched successfully!",
+        data : result
+    });
+  } catch (error) {
+    res.status(500).json({
+        message: "Error fetching users",
+        error: error
+    })
+  }
+};
+const getSingleUser = async (req: Request, res: Response) => {
+  try {
+    const id = req.params.userId;
+    const result = await userService.getSingleUser(id)
+    res.status(200).json({
+        success : true,
+        message : "User fetched successfully!",
+        data : result
+    });
+  } catch (error) {
+    res.status(500).json({
+        message: "Error fetching user",
+        error: error
+    })
+  }
+};
+const updateUser = async (req: Request, res: Response) => {
+  try {
+    const userData = req.body;
+    const id = req.params.userId;
+    const result = await userService.updateUser(id, userData)
+    res.status(200).json({
+        success : true,
+        message : "User updated successfully!",
+        data : result
+    });
+  } catch (error) {
+    res.status(500).json({
+        message: "Error updating user",
+        error: error
+    })
+  }
+};
+const deleteUser = async (req: Request, res: Response) => {
+  try {
+    const id = req.params.userId;
+    const result = await userService.deleteUser(id)
+    res.status(200).json({
+        success : true,
+        message : "User deleted Successfully!",
+        data : result
+    });
+  } catch (error) {
+    res.status(500).json({
+        message: "Error deleting user",
+        error: error
+    })
+  }
+};
 
 export const userController = {
-    createuser
+    createuser,
+    getAllUser,
+    getSingleUser,
+    updateUser,
+    deleteUser
 }
