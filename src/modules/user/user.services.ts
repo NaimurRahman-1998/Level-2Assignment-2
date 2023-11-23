@@ -53,6 +53,10 @@ const updateUser = async (id: string, data: IUser) => {
 
 const deleteUser = async (id: string) => {
   try {
+    const existingUser = await User.isUserExists(id);
+    if (!existingUser) {
+        throw new Error('User not found');
+      }
     const result = await User.findOneAndDelete({ userId: id });
     return result;
   } catch (error) {

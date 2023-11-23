@@ -71,16 +71,17 @@ const updateUser = async (req: Request, res: Response) => {
 const deleteUser = async (req: Request, res: Response) => {
   try {
     const id = req.params.userId;
-    const result = await userService.deleteUser(id)
+    await userService.deleteUser(id)
     res.status(200).json({
         success : true,
         message : "User deleted Successfully!",
-        data : result
+        data : null
     });
-  } catch (error) {
+  } catch (error : any) {
     res.status(500).json({
-        message: "Error deleting user",
-        error: error
+      success : false,
+      message: "User Not found",
+      error:Object.keys(error).length === 0 ? { "code": 404, "description": "User not found!" } : error
     })
   }
 };
