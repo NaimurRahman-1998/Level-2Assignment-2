@@ -1,3 +1,7 @@
+/* eslint-disable no-unused-vars */
+
+import { Model } from "mongoose";
+
 export interface IAddress {
     street: string;
     city: string;
@@ -26,4 +30,8 @@ export interface IUser {
     hobbies: string[];
     address: IAddress;
     orders: IOrder[];
+}
+
+export interface IUserModel extends Model<IUser> {
+    isUserExists(id: string): Promise<IUser | null>;
 }

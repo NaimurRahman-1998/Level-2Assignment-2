@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { Request, Response } from 'express';
 import { userService } from './user.services';
 
@@ -41,11 +42,12 @@ const getSingleUser = async (req: Request, res: Response) => {
         message : "User fetched successfully!",
         data : result
     });
-  } catch (error) {
+  } catch (error : any) {
     res.status(500).json({
-        message: "Error fetching user",
-        error: error
-    })
+      success: false,
+      message: error.message || 'something went wrong',
+      error:Object.keys(error).length === 0 ? { "code": 404, "description": "User not found!" } : error
+    });
   }
 };
 const updateUser = async (req: Request, res: Response) => {

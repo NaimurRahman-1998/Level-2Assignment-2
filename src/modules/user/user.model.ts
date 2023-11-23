@@ -3,7 +3,7 @@
 import bcrypt from "bcrypt";
 import mongoose, { Schema } from "mongoose";
 import config from "../../app/config";
-import { IAddress, IFullName, IOrder, IUser } from "./user.interface";
+import { IAddress, IFullName, IOrder, IUser, IUserModel } from "./user.interface";
 
 const AddressSchema = new Schema<IAddress>({
     street: { type: String, required: true },
@@ -22,7 +22,7 @@ const FullNameSchema = new Schema<IFullName>({
     lastName: { type: String, required: true },
 });
 
-const UserSchema = new Schema<IUser>({
+const UserSchema = new Schema<IUser ,IUserModel>({
     userId: { type: Number, required: true ,unique : true },
     username: { type: String, required: true },
     password: { type: String, required: true },
@@ -63,4 +63,10 @@ const UserSchema = new Schema<IUser>({
 };
 
 
-export const User = mongoose.model<IUser>("User", UserSchema);
+UserSchema.statics.isUserExists = async function (id: string) {
+  const existingUser = await User.findOne({ userId: id });
+  return existingUser;
+};
+
+
+export const User = mongoose.model<IUser,IUserModel>("User", UserSchema);
