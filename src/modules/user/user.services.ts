@@ -30,8 +30,6 @@ const getSingleUser = async (id: string) => {
     }else {
         throw new Error('user does not exist')
     }
-    
-    
 };
 
 const updateUser = async (id: string, data: IUser) => {
