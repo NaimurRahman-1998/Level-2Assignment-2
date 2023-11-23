@@ -35,6 +35,10 @@ const getSingleUser = async (id: string) => {
 
 const updateUser = async (id: string, data: IUser) => {
   try {
+    const user = await User.findOne({ userId: id });
+    if (!user) {
+        throw new Error('User not found');
+      }  
     const result = await User.findOneAndUpdate({ userId: id }, data, {
       new: true,
       runValidators: true,

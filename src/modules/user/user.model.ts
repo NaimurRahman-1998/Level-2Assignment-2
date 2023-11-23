@@ -69,4 +69,5 @@ UserSchema.statics.isUserExists = async function (id: string) {
 };
 
 
+
 export const User = mongoose.model<IUser,IUserModel>("User", UserSchema);

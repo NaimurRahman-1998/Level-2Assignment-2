@@ -60,10 +60,11 @@ const updateUser = async (req: Request, res: Response) => {
         message : "User updated successfully!",
         data : result
     });
-  } catch (error) {
+  } catch (error : any) {
     res.status(500).json({
-        message: "Error updating user",
-        error: error
+        success : false,
+        message: "User Not found",
+        error:Object.keys(error).length === 0 ? { "code": 404, "description": "User not found!" } : error
     })
   }
 };
