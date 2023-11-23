@@ -19,7 +19,7 @@ const FullNameSchema = new Schema<IFullName>({
 });
 
 const UserSchema = new Schema<IUser>({
-    userId: { type: Number, required: true },
+    userId: { type: Number, required: true ,unique : true },
     username: { type: String, required: true },
     password: { type: String, required: true },
     fullName: { type: FullNameSchema, required: true },
