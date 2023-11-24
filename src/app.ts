@@ -4,10 +4,11 @@ import { userRoutes } from './modules/user/user.route';
 
 const app = express();
 
+//express middlewares
 app.use(express.json());
 app.use(cors());
 
-//
+// api endpoint for user routes
 app.use('/api/users', userRoutes);
 
 

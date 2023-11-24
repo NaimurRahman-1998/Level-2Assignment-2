@@ -12,7 +12,7 @@ const getAllUser = async () => {
 };
 
 const getSingleUser = async (id: string) => {
-  if (await User.isUserExists(id)) {
+  if (await User.isUserExists(id)) { // chicking if user exists though static method
     const result = await User.findOne({ userId: id });
     return result;
   } else {
@@ -21,7 +21,7 @@ const getSingleUser = async (id: string) => {
 };
 
 const updateUser = async (id: string, data: IUser) => {
-  const existingUser = await User.isUserExists(id);
+  const existingUser = await User.isUserExists(id);// chicking if user exists though static method
   if (!existingUser) {
     throw new Error('User not found');
   }
@@ -33,7 +33,7 @@ const updateUser = async (id: string, data: IUser) => {
 };
 
 const deleteUser = async (id: string) => {
-  const existingUser = await User.isUserExists(id);
+  const existingUser = await User.isUserExists(id);// chicking if user exists though static method
   if (!existingUser) {
     throw new Error('User not found');
   }
@@ -42,7 +42,7 @@ const deleteUser = async (id: string) => {
 };
 
 const addProductToUser = async (id: string, data: IOrder) => {
-  const existingUser = await User.isUserExists(id);
+  const existingUser = await User.isUserExists(id);// chicking if user exists though static method
   if (!existingUser) {
     throw new Error('User not found');
   }
@@ -54,7 +54,7 @@ const addProductToUser = async (id: string, data: IOrder) => {
 };
 
 const getOrdersofUser = async (id: string) => {
-  const existingUser = await User.isUserExists(id);
+  const existingUser = await User.isUserExists(id);// chicking if user exists though static method
   if (!existingUser) {
     throw new Error('User not found');
   }
@@ -63,7 +63,7 @@ const getOrdersofUser = async (id: string) => {
 };
 
 const getTotalPrice = async (id: string) => {
-  const existingUser = await User.isUserExists(id);
+  const existingUser = await User.isUserExists(id);// chicking if user exists though static method
   if (!existingUser) {
     throw new Error('User not found');
   }

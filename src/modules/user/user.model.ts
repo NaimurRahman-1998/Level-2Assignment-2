@@ -1,28 +1,26 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
-/* eslint-disable no-unused-vars */
 import bcrypt from 'bcrypt';
 import mongoose, { Schema } from 'mongoose';
 import config from '../../app/config';
-import { IUser, IUserModel } from './user.interface';
+import { IAddress, IFullName, IOrder, IUser, IUserModel } from './user.interface';
 
-const AddressSchema = new Schema({
+const AddressSchema = new Schema<IAddress>({
   street: { type: String, required: [true, 'Street is required'] },
   city: { type: String, required: [true, 'City is required'] },
   country: { type: String, required: [true, 'Country is required'] },
 });
 
-const OrderSchema = new Schema({
+const OrderSchema = new Schema<IOrder>({
   productName: { type: String, required: [true, 'Product name is required'] },
   price: { type: Number, required: [true, 'Price is required'] },
   quantity: { type: Number, required: [true, 'Quantity is required'] },
 });
 
-const FullNameSchema = new Schema({
+const FullNameSchema = new Schema<IFullName>({
   firstName: { type: String, required: [true, 'First name is required'] },
   lastName: { type: String, required: [true, 'Last name is required'] },
 });
 
-const UserSchema = new Schema(
+const UserSchema = new Schema<IUser>(
   {
     userId: {
       type: Number,
@@ -52,13 +50,14 @@ const UserSchema = new Schema(
   },
 );
 
+// mongoose middleware to hash password before creating document
 UserSchema.pre('save', async function (next) {
-  // eslint-disable-next-line @typescript-eslint/no-this-alias
   const user = this;
   user.password = await bcrypt.hash(user.password, Number(config.salt_rounds));
   next();
 });
 
+// mongoose middleware to project specific fields on query "find"
 UserSchema.pre('find', async function (next) {
   this.find({}).projection({
     username: 1,
@@ -71,16 +70,20 @@ UserSchema.pre('find', async function (next) {
   next();
 });
 
+// mongoose method to excude password
 UserSchema.methods.toJSON = function () {
   const { password, _id, __v, ...rest } = this.toObject();
   return rest;
 };
 
+// mongoose static mehtod to check User before logic
 UserSchema.statics.isUserExists = async function (id: string) {
   const existingUser = await User.findOne({ userId: id });
   return existingUser;
 };
 
+
+// mongoose static method to implement logic of calculate total price
 UserSchema.statics.calculateTotal = async function (id: string) {
   const total = await User.aggregate([
     { $match: { userId: Number(id) } },

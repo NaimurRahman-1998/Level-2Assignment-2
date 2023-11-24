@@ -1,5 +1,3 @@
-/* eslint-disable no-unused-vars */
-
 import { Model } from 'mongoose';
 
 export interface IAddress {
@@ -32,6 +30,8 @@ export interface IUser {
   orders?: IOrder[];
 }
 
+
+// creating static functions 
 export interface IUserModel extends Model<IUser> {
   isUserExists(id: string): Promise<IUser | null>;
   calculateTotal(id: string): Promise<number>;
