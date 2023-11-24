@@ -42,7 +42,7 @@ const UserSchema = new Schema(
     address: { type: AddressSchema, required: [true, 'Address is required'] },
     orders: {
       type: [OrderSchema],
-      required: [true, 'At least one order is required'],
+      required: false,
     },
   },
   {

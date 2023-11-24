@@ -76,6 +76,29 @@ const updateUser = async (req: Request, res: Response) => {
     });
   }
 };
+const addProductToUser = async (req: Request, res: Response) => {
+  try {
+    const userData = req.body;
+    const id = req.params.userId;
+    await userService.addProductToUser(id, userData);
+    res.status(200).json({
+      success: true,
+      message: 'order created successfully!',
+      data: null,
+    });
+  } catch (error: any) {
+    res.status(500).json({
+      success: false,
+      message: error.message || 'something went wrong',
+      error:
+        Object.keys(error).length === 0
+          ? { code: 404, description: 'User not found!' }
+          : error,
+    });
+  }
+};
+
+
 const deleteUser = async (req: Request, res: Response) => {
   try {
     const id = req.params.userId;
@@ -102,5 +125,6 @@ export const userController = {
   getAllUser,
   getSingleUser,
   updateUser,
+  addProductToUser,
   deleteUser,
 };
