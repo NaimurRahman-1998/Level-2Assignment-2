@@ -7,7 +7,8 @@ router.post('/api/users', userController.createuser);
 router.get('/api/users', userController.getAllUser);
 router.get('/api/users/:userId', userController.getSingleUser);
 router.put('/api/users/:userId', userController.updateUser);
-router.get('/api/users/:userId/orders')
+router.get('/api/users/:userId/orders' , userController.getOrdersofUser);
+router.get('/api/users/:userId/orders/total-price' , userController.getTotalPrice);
 router.put('/api/users/:userId/orders',  userController.addProductToUser);
 router.delete('/api/users/:userId', userController.deleteUser);
 

@@ -98,6 +98,55 @@ const addProductToUser = async (req: Request, res: Response) => {
   }
 };
 
+const getOrdersofUser = async (req: Request, res: Response) => {
+  try {
+    const id = req.params.userId;
+    const result = await userService.getOrdersofUser(id);
+    res.status(200).json({
+      success: true,
+      message: 'Order fetched successfully!',
+      data: result,
+    });
+  } catch (error: any) {
+    res.status(500).json({
+      success: false,
+      message: error.message || 'something went wrong',
+      error:
+        Object.keys(error).length === 0
+          ? { code: 404, description: 'User not found!' }
+          : error,
+    });
+  }
+};
+const getTotalPrice = async (req: Request, res: Response) => {
+  try {
+    const id = req.params.userId;
+    const result = await userService.getTotalPrice(id);
+    if (Array.isArray(result) && result.length === 0) {
+      res.status(200).json({
+        success: true,
+        message: 'No products found for the user.',
+        data: null, 
+      });
+    } else {
+      res.status(200).json({
+        success: true,
+        message: 'Total price calculated successfully!',
+        data: result,
+      });
+    }
+  } catch (error: any) {
+    res.status(500).json({
+      success: false,
+      message: error.message || 'something went wrong',
+      error:
+        Object.keys(error).length === 0
+          ? { code: 404, description: 'User not found!' }
+          : error,
+    });
+  }
+};
+
 
 const deleteUser = async (req: Request, res: Response) => {
   try {
@@ -126,5 +175,7 @@ export const userController = {
   getSingleUser,
   updateUser,
   addProductToUser,
+  getOrdersofUser,
+  getTotalPrice,
   deleteUser,
 };

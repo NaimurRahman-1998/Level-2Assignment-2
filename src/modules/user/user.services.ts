@@ -51,11 +51,31 @@ const addProductToUser = async (id: string , data: IOrder) => {
   return result;
 }
 
+const getOrdersofUser = async (id: string) => {
+  const existingUser = await User.isUserExists(id);
+  if (!existingUser) {
+    throw new Error('User not found');
+  }
+  const result = await User.findOne({ userId: id } , {orders : 1})
+  return result;
+}
+
+const getTotalPrice = async (id: string) => {
+  const existingUser = await User.isUserExists(id);
+  if (!existingUser) {
+    throw new Error('User not found');
+  }
+  const result = await User.calculateTotal(id)
+  return result;
+}
+
 export const userService = {
   createuser,
   getAllUser,
   getSingleUser,
   updateUser,
   deleteUser,
-  addProductToUser
+  addProductToUser,
+  getTotalPrice,
+  getOrdersofUser
 };
