@@ -1,12 +1,22 @@
 # Level-2 Assignemnt-2 Mongoose Express CRUD Mastery
 
-## 1. clone git repository
+## 1. Open Terminal . clone git repository
 
 ```bash
 git clone https://github.com/NaimurRahman-1998/Level-2Assignment-2.git
 ```
 
-## 2. Navigate to the project directory and open VSCode.
+### go to the repository directory
+
+```bash
+cd Level-2Assignment-2
+```
+
+### open vsCOde
+
+```bash
+code .
+```
 
 ## 3. Install npm and all dependencies:
 
@@ -62,4 +72,4 @@ npm start
 "prettier:fix": "npx prettier --write src"
 ```
 
-## 8. Server will start in `http://localhost:PORT`
+## 8. Server will start in `http://localhost:5000`
