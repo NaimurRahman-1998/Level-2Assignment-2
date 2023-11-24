@@ -70,6 +70,13 @@ UserSchema.pre('find', async function (next) {
   });
   next();
 });
+UserSchema.pre('findOneAndUpdate', async function (next) {
+  this.find({}).projection({
+password: 0,
+orders : 0
+  });
+  next();
+});
 
 // mongoose post middleware to exclude password and other fileds
 UserSchema.post('save', async function (doc, next) {

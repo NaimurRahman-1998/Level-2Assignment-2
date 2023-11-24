@@ -13,7 +13,7 @@ const getAllUser = async () => {
 
 const getSingleUser = async (id: string) => {
   if (await User.isUserExists(id)) { // chicking if user exists though static method
-    const result = await User.findOne({ userId: id });
+    const result = await User.findOne({ userId: id } , {password: 0 , orders : 0});
     return result;
   } else {
     throw new Error('user does not exist');
@@ -68,7 +68,6 @@ const getTotalPrice = async (id: string) => {
     throw new Error('User not found');
   }
   const result = await User.calculateTotal(id);
-  console.log(result);
   return result;
 };
 
