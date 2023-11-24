@@ -84,16 +84,16 @@ UserSchema.statics.isUserExists = async function (id: string) {
 UserSchema.statics.calculateTotal = async function (id: string) {
   const total = await User.aggregate([
     { $match: { userId: Number(id) } },
-    { $unwind: "$orders" },
+    { $unwind: '$orders' },
     {
       $group: {
         _id: null,
-        total: { $sum: { $multiply: ["$orders.price", "$orders.quantity"] } }
-      }
+        total: { $sum: { $multiply: ['$orders.price', '$orders.quantity'] } },
+      },
     },
-    { $project : {total : 1 , _id :0}}
-  ])
+    { $project: { total: 1, _id: 0 } },
+  ]);
   return total;
-}
+};
 
 export const User = mongoose.model<IUser, IUserModel>('User', UserSchema);

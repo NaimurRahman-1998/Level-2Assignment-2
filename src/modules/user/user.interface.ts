@@ -34,5 +34,5 @@ export interface IUser {
 
 export interface IUserModel extends Model<IUser> {
   isUserExists(id: string): Promise<IUser | null>;
-  calculateTotal(id: string): Promise<number>
+  calculateTotal(id: string): Promise<number>;
 }

@@ -41,33 +41,35 @@ const deleteUser = async (id: string) => {
   return result;
 };
 
-
-const addProductToUser = async (id: string , data: IOrder) => {
+const addProductToUser = async (id: string, data: IOrder) => {
   const existingUser = await User.isUserExists(id);
   if (!existingUser) {
     throw new Error('User not found');
   }
-  const result = await User.updateOne({ userId: id}, {$addToSet : {orders : data}})
+  const result = await User.updateOne(
+    { userId: id },
+    { $addToSet: { orders: data } },
+  );
   return result;
-}
+};
 
 const getOrdersofUser = async (id: string) => {
   const existingUser = await User.isUserExists(id);
   if (!existingUser) {
     throw new Error('User not found');
   }
-  const result = await User.findOne({ userId: id } , {orders : 1})
+  const result = await User.findOne({ userId: id }, { orders: 1 });
   return result;
-}
+};
 
 const getTotalPrice = async (id: string) => {
   const existingUser = await User.isUserExists(id);
   if (!existingUser) {
     throw new Error('User not found');
   }
-  const result = await User.calculateTotal(id)
+  const result = await User.calculateTotal(id);
   return result;
-}
+};
 
 export const userService = {
   createuser,
@@ -77,5 +79,5 @@ export const userService = {
   deleteUser,
   addProductToUser,
   getTotalPrice,
-  getOrdersofUser
+  getOrdersofUser,
 };

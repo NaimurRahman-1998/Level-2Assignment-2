@@ -10,7 +10,7 @@ const OrderValidationSchema = z.object({
   productName: z.string().min(1).max(255),
   price: z.number(),
   quantity: z.number(),
-})
+});
 
 const FullNameValidationSchema = z.object({
   firstName: z.string().min(1).max(255),

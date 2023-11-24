@@ -126,7 +126,7 @@ const getTotalPrice = async (req: Request, res: Response) => {
       res.status(200).json({
         success: true,
         message: 'No products found for the user.',
-        data: null, 
+        data: null,
       });
     } else {
       res.status(200).json({
@@ -146,7 +146,6 @@ const getTotalPrice = async (req: Request, res: Response) => {
     });
   }
 };
-
 
 const deleteUser = async (req: Request, res: Response) => {
   try {
