@@ -68,6 +68,7 @@ const getTotalPrice = async (id: string) => {
     throw new Error('User not found');
   }
   const result = await User.calculateTotal(id);
+  console.log(result);
   return result;
 };
 

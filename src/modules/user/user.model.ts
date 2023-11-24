@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import bcrypt from 'bcrypt';
 import mongoose, { Schema } from 'mongoose';
 import config from '../../app/config';
@@ -70,11 +71,15 @@ UserSchema.pre('find', async function (next) {
   next();
 });
 
-// mongoose method to excude password
-UserSchema.methods.toJSON = function () {
-  const { password, _id, __v, ...rest } = this.toObject();
-  return rest;
-};
+// mongoose post middleware to exclude password and other fileds
+UserSchema.post('save', async function (doc, next) {
+  const excludedFields = ['password', 'orders' , '__v'];
+  excludedFields.forEach(field => {
+      (doc as any)[field] = undefined
+  });
+  next();
+});
+
 
 // mongoose static mehtod to check User before logic
 UserSchema.statics.isUserExists = async function (id: string) {
@@ -85,7 +90,7 @@ UserSchema.statics.isUserExists = async function (id: string) {
 
 // mongoose static method to implement logic of calculate total price
 UserSchema.statics.calculateTotal = async function (id: string) {
-  const total = await User.aggregate([
+  const totalPrice = await User.aggregate([
     { $match: { userId: Number(id) } },
     { $unwind: '$orders' },
     {
@@ -94,9 +99,10 @@ UserSchema.statics.calculateTotal = async function (id: string) {
         total: { $sum: { $multiply: ['$orders.price', '$orders.quantity'] } },
       },
     },
-    { $project: { total: 1, _id: 0 } },
+    { $project: { totalPrice: "$total", _id: 0 } },
   ]);
-  return total;
+  return totalPrice[0];
 };
 
 export const User = mongoose.model<IUser, IUserModel>('User', UserSchema);
+
